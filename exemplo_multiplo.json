@@ -1,0 +1,78 @@
+{
+    "numero_simulacoes": 50,
+    "dias": 365,
+    "aquecimento": 30,
+    "leitos": [
+        20,
+        50
+    ],
+    "paciente": [
+        {
+            "prefixo": "CLI",
+            "prioridade": [
+                2,
+                5
+            ],
+            "novos_pacientes_dia": 3.0,
+            "mean": 9.0,
+            "std_dev": 7.0,
+            "tempo_max_espera": [
+                12,
+                96
+            ],
+            "dias_semana": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
+        },
+        {
+            "prefixo": "CIR-eletivo",
+            "prioridade": [
+                3,
+                5
+            ],
+            "novos_pacientes_dia": 1.5,
+            "mean": 3.0,
+            "std_dev": 4.0,
+            "tempo_max_espera": [
+                6,
+                18
+            ],
+            "dias_semana": [
+                0,
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        {
+            "prefixo": "CIR-urgencia",
+            "prioridade": [
+                1,
+                3
+            ],
+            "novos_pacientes_dia": 0.75,
+            "mean": 12.0,
+            "std_dev": 10.0,
+            "tempo_max_espera": [
+                6,
+                36
+            ],
+            "dias_semana": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
+        }
+    ]
+}

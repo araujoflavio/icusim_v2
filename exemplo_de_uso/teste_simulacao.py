@@ -6,7 +6,6 @@ em arquivos JSON na pasta 'resultados/'.
 """
 
 import json
-import os
 from pathlib import Path
 
 from icusim import run_simulation
@@ -35,11 +34,14 @@ def rodar_e_salvar(caminho_json: str, pasta_saida: str = "resultados") -> None:
     pasta_saida : str
         Pasta onde os arquivos de saída serão salvos.
     """
+    caminho_json_path = Path(caminho_json)
+    pasta_saida_path = Path(pasta_saida)
+
     # --- Leitura da configuração ---
-    with open(caminho_json, encoding="utf-8") as f:
+    with open(caminho_json_path, encoding="utf-8") as f:
         sim_data = json.load(f)
 
-    print(f"Configuração carregada: {caminho_json}")
+    print(f"Configuração carregada: {caminho_json_path}")
     print(f"  Leitos: {sim_data['leitos']} | Dias: {sim_data['dias']} | Aquecimento: {sim_data['aquecimento']}")
 
     # --- Execução da simulação ---
@@ -47,8 +49,8 @@ def rodar_e_salvar(caminho_json: str, pasta_saida: str = "resultados") -> None:
     print("Simulação concluída.")
 
     # --- Preparação da pasta de saída ---
-    nome_base = Path(caminho_json).stem
-    pasta = Path(pasta_saida) / nome_base
+    nome_base = caminho_json_path.stem
+    pasta = pasta_saida_path / nome_base
     pasta.mkdir(parents=True, exist_ok=True)
 
     dump_kwargs = {"ensure_ascii": False, "indent": 2, "default": _converter_para_json}
@@ -72,5 +74,11 @@ def rodar_e_salvar(caminho_json: str, pasta_saida: str = "resultados") -> None:
 
 
 if __name__ == "__main__":
-    caminho = os.path.join("icusim", "exemplo_de_uso", "exemplo_simples.json")
-    rodar_e_salvar(caminho)
+    base_dir = Path(__file__).resolve().parent
+    projeto_dir = base_dir.parent
+
+    caminho = base_dir / "exemplo_simples.json"
+    #pasta_saida = projeto_dir / "resultados"
+    pasta_saida = base_dir / "resultados"
+
+    rodar_e_salvar(caminho, pasta_saida)

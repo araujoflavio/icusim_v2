@@ -64,6 +64,7 @@ class ICUSim:
         self.LEITOS = leitos
         self.AQUECIMENTO = aquecimento
         self._inicio_analise: float = aquecimento * 24
+        self.TEMPO_MIN_INTERNACAO = 12  # horas
 
         self.env = env
 
@@ -183,7 +184,7 @@ class ICUSim:
         O intervalo entre chegadas segue uma distribuição de Poisson com taxa
         média de ``novos_pacientes_dia`` por dia. O tempo de internação é sorteado
         de uma distribuição Gamma parametrizada por ``mean`` e ``std_dev`` (em dias)
-        e convertida para horas, com acréscimo de 12 horas de internação mínima.
+        e convertida para horas, com acréscimo de ``self.TEMPO_MIN_INTERNACAO`` horas de internação mínima.
 
         Parameters
         ----------
@@ -213,9 +214,9 @@ class ICUSim:
             if (self.env.now // 24) % 7 not in dias_semana:
                 continue
 
-            # Tempo de internação sorteado de distribuição Gamma, mínimo 12 horas.
+            # Tempo de internação sorteado de distribuição Gamma, mínimo self.TEMPO_MIN_INTERNACAO (12 horas).
             tempo_internacao = (
-                np.random.gamma(mean**2 / std_dev**2, std_dev**2 / mean) * 24 + 12
+                np.random.gamma(mean**2 / std_dev**2, std_dev**2 / mean) * 24 + self.TEMPO_MIN_INTERNACAO
             )
 
             prioridade_sorteada = random.randint(*prioridade)
